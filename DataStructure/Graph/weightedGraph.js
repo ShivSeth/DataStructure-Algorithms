@@ -1,4 +1,5 @@
 //To always get the min edge value
+//We can implement the PQ with the original in Priority Queue folder
 class PriorityQueue {
   constructor() {
     this.values = [];
@@ -54,18 +55,18 @@ class WeightedGraph {
         }
         break;
       }
-      if (vertexValue || distances[vertexValue] !== Infinity) {
-        //find neighboring node
-        for (let i of this.adjacencyList[vertexValue]) {
-          let neighborDistance = distances[vertexValue] + i.weight;
-          if (distances[i.node] > neighborDistance) {
-            distances[i.node] = neighborDistance;
-            previous[i.node] = vertexValue;
-            pQueue.enqueue(i.node, neighborDistance);
-            pQueue;
-          }
+      // if (vertexValue || distances[vertexValue] !== Infinity) {
+      //find neighboring node
+      for (let i of this.adjacencyList[vertexValue]) {
+        let neighborDistance = distances[vertexValue] + i.weight;
+        if (distances[i.node] > neighborDistance) {
+          distances[i.node] = neighborDistance;
+          previous[i.node] = vertexValue;
+          pQueue.enqueue(i.node, neighborDistance);
+          pQueue;
         }
       }
+      // }
     }
     pQueue;
     previous;
