@@ -16,4 +16,4 @@ function bubbleSort(arr) {
 
 bubbleSort([8, 1, 2, 3, 4, 5, 6, 7]);
 
-//It there are no comparison to be made - Array is sorted
+//It there are no comparison to be made - Array is sorted Optimization technique

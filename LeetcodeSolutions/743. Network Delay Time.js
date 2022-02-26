@@ -1,10 +1,60 @@
-//1  comparisons per row - so O(log(n)) | Heaps don't have depressing tree structure | not good for searching -> O(n)
-//We use heap as to have O(log(n)) for insertion and deletion
-//for max and min -> O(1)
-//min-heap || max-heap -> all nodes filled from top - bottom and left - right
+/**
+ * @param {number[][]} times
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+var networkDelayTime = function (times, n, k) {
+  let wg = new WeightedGraph();
+  for (let [v1, v2, weight] of times) {
+    wg.addEdge(v1, v2, weight);
+  }
+  let pq = new PriorityQueue();
+  // let previousVertex = {};
+  let distances = {};
+  for (let i = 1; i <= n; i++) {
+    if (i === k) {
+      distances[i] = 0;
+      pq.enqueue(i, 0);
+    } else {
+      distances[i] = Infinity;
+      //No need to use this below line of code
+      // pq.enqueue(i, Infinity);
+    }
+  }
+  function dijkstra() {
+    while (pq.values.length) {
+      let vertexValue = pq.dequeue().value;
+      if (!wg.adjacencyList[vertexValue]) continue;
+      for (let [node, weight] of wg.adjacencyList[vertexValue]) {
+        let neighBorDistance = distances[vertexValue] + weight;
+        if (distances[node] > neighBorDistance) {
+          distances[node] = neighBorDistance;
+          pq.enqueue(node, neighBorDistance);
+        }
+      }
+    }
+  }
+  dijkstra();
+  let maxTime = Math.max(...Object.values(distances));
+  return maxTime === Infinity ? -1 : maxTime;
+};
+
+class WeightedGraph {
+  constructor() {
+    this.adjacencyList = {};
+  }
+
+  //Directed Graph
+  addEdge(v1, v2, weight) {
+    if (!this.adjacencyList[v1]) this.adjacencyList[v1] = [];
+    this.adjacencyList[v1].push([v2, weight]);
+  }
+}
+
 class Node {
-  constructor(val, priority) {
-    this.val = val;
+  constructor(value, priority) {
+    this.value = value;
     this.priority = priority;
   }
 }
@@ -82,13 +132,12 @@ class PriorityQueue {
   }
 }
 
-let priorityQ = new PriorityQueue();
-priorityQ.enqueue(5, 3);
-priorityQ.enqueue(8, 2);
-priorityQ.enqueue(10, 4);
-priorityQ.enqueue(15, 1);
-priorityQ;
-priorityQ.dequeue();
-priorityQ;
-priorityQ.dequeue();
-priorityQ;
+networkDelayTime(
+  [
+    [2, 1, 1],
+    [2, 3, 1],
+    [3, 4, 1],
+  ],
+  4,
+  2
+);
